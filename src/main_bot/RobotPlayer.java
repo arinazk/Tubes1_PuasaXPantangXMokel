@@ -1,17 +1,18 @@
-package main-bots;
-
-import battlecode.common.*;
+package main_bot;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-import java.util.ArrayList;
 
-import org.apache.lucene.document.MapFieldSelector;
-import org.hibernate.dialect.lock.LockingStrategy;
+import battlecode.common.Clock;
+import battlecode.common.Direction;
+import battlecode.common.GameActionException;
+import battlecode.common.MapInfo;
+import battlecode.common.MapLocation;
+import battlecode.common.Message;
+import battlecode.common.PaintType;
+import battlecode.common.RobotController;
+import battlecode.common.RobotInfo;
+import battlecode.common.UnitType;
 
 
 /**
@@ -145,7 +146,7 @@ public class RobotPlayer {
             int robotType = 0;
             if((spawnedBot % 5 == 0 && spawnedBot != 0) || mustSpawnMopper) robotType = 1;
             if(mustSpawnSplasher) robotType = 2;
-            if((spawnedBot % 15 == 0 && spawnedBot != 0) && rc.getRoundNum() > 1500) robotType = 2;
+            if((spawnedBot % 25 == 0 && spawnedBot != 0) && rc.getRoundNum() > 1500) robotType = 2;
             if (robotType == 0 && rc.canBuildRobot(UnitType.SOLDIER, nextLoc)){
                 rc.buildRobot(UnitType.SOLDIER, nextLoc);
                 System.out.println("BUILT A SOLDIER at " + dir);
@@ -164,6 +165,7 @@ public class RobotPlayer {
             else if (robotType == 2 && rc.canBuildRobot(UnitType.SPLASHER, nextLoc)){
                 rc.buildRobot(UnitType.SPLASHER, nextLoc);
                 System.out.println("BUILT A SPLASHER");
+                spawnedBot++;
             }
         }
         if(nearestEnemyBot != null && rc.isActionReady()){
@@ -270,7 +272,8 @@ public class RobotPlayer {
             }
             
             if(botState == 0) {
-                robotMove(rc, currentLoc, destination);
+                if(curRuin != null) robotMove(rc, currentLoc, destination);
+                else robotMove(rc, currentLoc, destination);
             }
             else if(botState == 1){
                 int message = (enemyTileLoc.x << 8) + (enemyTileLoc.y & 0xFF);
