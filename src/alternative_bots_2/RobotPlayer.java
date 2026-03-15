@@ -1,7 +1,14 @@
-package alternative-bots-2;
+package alternative_bots_2;
 
-import battlecode.common.*;
-import java.util.Random;
+import battlecode.common.Clock;
+import battlecode.common.Direction;
+import battlecode.common.GameActionException;
+import battlecode.common.MapInfo;
+import battlecode.common.MapLocation;
+import battlecode.common.PaintType;
+import battlecode.common.RobotController;
+import battlecode.common.RobotInfo;
+import battlecode.common.UnitType;
 
 public class RobotPlayer {
     static final int MAX_CLAIMS = 20;
